@@ -1,0 +1,298 @@
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.gameHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.domainBadge {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ce93d8;
+}
+
+.roundInfo {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+}
+
+.levelBadge {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffb74d;
+  padding: 0.25rem 0.875rem;
+  background: rgba(245,124,0,0.15);
+  border-radius: 999px;
+  border: 1px solid rgba(245,124,0,0.3);
+}
+
+/* Phase boxes */
+.phaseBox {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 2rem;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.phaseEmoji {
+  font-size: 5rem;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+}
+
+.phaseTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.phaseDesc {
+  font-size: 1.25rem;
+  color: rgba(255,255,255,0.7);
+  max-width: 400px;
+}
+
+.difficultyInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255,255,255,0.06);
+  border-radius: 1rem;
+  font-size: 1.125rem;
+  color: rgba(255,255,255,0.75);
+  width: 100%;
+  max-width: 320px;
+}
+
+/* Show phase */
+.instruction {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  text-align: center;
+}
+
+.timerWrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.timerLabel {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffb74d;
+  text-align: center;
+}
+
+/* Object grid */
+.objectGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.objectCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 130px;
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(255,255,255,0.12);
+  border-radius: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 1rem;
+  position: relative;
+}
+
+.objectCard:hover:not(:disabled) {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(245,124,0,0.5);
+  transform: scale(1.03);
+}
+
+.objectCard:disabled {
+  cursor: default;
+}
+
+.objectShow {
+  animation: floatUp 0.4s ease forwards;
+  opacity: 0;
+}
+
+.objectSelected {
+  background: rgba(245,124,0,0.2);
+  border-color: rgba(245,124,0,0.6);
+}
+
+.objectCorrect {
+  background: rgba(46,125,50,0.25);
+  border-color: #4caf50;
+  box-shadow: 0 0 20px rgba(76,175,80,0.3);
+  animation: pulse-correct 0.5s ease;
+}
+
+.objectIncorrect {
+  background: rgba(198,40,40,0.2);
+  border-color: #ef5350;
+  animation: shake 0.4s ease;
+}
+
+@keyframes pulse-correct {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes floatUp {
+  from { opacity: 0; transform: translateY(15px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.objectEmoji {
+  font-size: 3rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.objectLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.objectResult {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+/* Recall hint */
+.recallHint {
+  font-size: 1.125rem;
+  color: rgba(255,255,255,0.55);
+}
+
+/* Feedback banner */
+.feedbackBanner {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 1.375rem;
+  font-weight: 700;
+  text-align: center;
+  animation: floatUp 0.3s ease;
+}
+
+.feedbackCorrect {
+  background: rgba(46,125,50,0.2);
+  border: 2px solid rgba(76,175,80,0.4);
+  color: #a5d6a7;
+}
+
+.feedbackIncorrect {
+  background: rgba(198,40,40,0.15);
+  border: 2px solid rgba(239,83,80,0.4);
+  color: #ef9a9a;
+}
+
+/* Complete */
+.completeBox {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 2rem;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.completeTrophy {
+  font-size: 5rem;
+  animation: floatUp 0.5s ease;
+}
+
+.completeTitle {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.scoreDisplay {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreRingSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.scoreNumber {
+  font-size: 2.5rem;
+  font-weight: 900;
+  position: relative;
+  z-index: 1;
+}
+
+.scoreLabel {
+  font-size: 1.125rem;
+  color: rgba(255,255,255,0.6);
+  margin-top: -0.5rem;
+}
+
+.levelChange {
+  padding: 0.75rem 1.5rem;
+  background: rgba(245,124,0,0.15);
+  border: 1px solid rgba(245,124,0,0.3);
+  border-radius: 999px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #ffb74d;
+}
+
+.completeActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 380px;
+}

@@ -1,0 +1,130 @@
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header { text-align: center; }
+.title { font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem; }
+.subtitle { font-size: 1.125rem; color: rgba(255,255,255,0.6); }
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  font-size: 1.25rem;
+  color: rgba(255,255,255,0.5);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.reminderCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: var(--card-bg, rgba(255,255,255,0.07));
+  border: 2px solid var(--card-border, rgba(255,255,255,0.12));
+  border-radius: 1.75rem;
+  transition: all 0.3s ease;
+}
+
+.reminderDone {
+  opacity: 0.65;
+}
+
+.reminderLeft {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.reminderIcon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.reminderContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.reminderType {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.reminderTitle {
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.reminderDesc {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.reminderTime {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.55);
+  font-weight: 500;
+}
+
+.ackBtn {
+  min-width: 110px;
+  min-height: 60px;
+  padding: 0.875rem 1.25rem;
+  background: var(--gradient-accent);
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(245,124,0,0.3);
+}
+
+.ackBtn:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(245,124,0,0.4);
+}
+
+.ackBtnDone {
+  background: rgba(56,142,60,0.3);
+  color: #a5d6a7;
+  box-shadow: none;
+  cursor: default;
+}
+
+.progressBox {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1rem 1.5rem;
+  background: rgba(56,142,60,0.12);
+  border: 1px solid rgba(76,175,80,0.3);
+  border-radius: 1.25rem;
+  font-size: 1.125rem;
+  color: #a5d6a7;
+  font-weight: 600;
+}

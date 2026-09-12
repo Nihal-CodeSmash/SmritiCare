@@ -1,0 +1,223 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  font-size: 1.25rem;
+  color: var(--text-dark-secondary);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  gap: 1rem;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  opacity: 0.2;
+}
+
+/* Overview */
+.overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  color: var(--text-dark-secondary);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.patientInfo {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.avatarLarge {
+  width: 64px;
+  height: 64px;
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(26, 35, 126, 0.2);
+}
+
+.patientName {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.patientMeta {
+  font-size: 0.875rem;
+  color: var(--text-dark-secondary);
+}
+
+.trendSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.trendWarning {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-danger);
+}
+
+.trendGood {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+.trendSub {
+  font-size: 0.875rem;
+  color: var(--text-dark-secondary);
+}
+
+/* Alerts Panel */
+.alertsPanel {
+  margin-top: 1rem;
+}
+
+.panelTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.alertList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.alertHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.alertType {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.alertDomain {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.alertMsg {
+  font-size: 0.95rem;
+  color: var(--text-dark-secondary);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.ackBtn {
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid #e0e3f0;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ackBtn:hover {
+  background: #f8f9ff;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* Charts Grid */
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+.cardAlert {
+  border-color: #ffcdd2;
+  box-shadow: 0 4px 20px rgba(239, 83, 80, 0.1);
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.chartTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.25rem;
+}
+
+.chartTrend {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.trendDown { color: var(--color-danger); }
+.trendUp { color: var(--color-success); }
+.trendNeutral { color: var(--text-dark-secondary); }
+
+.scoreCircle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f0f2ff;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  border: 2px solid #e0e3f0;
+}
+
+.chartContainer {
+  height: 200px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .chartsGrid {
+    grid-template-columns: 1fr;
+  }
+}

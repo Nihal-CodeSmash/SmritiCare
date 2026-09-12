@@ -1,0 +1,108 @@
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1.5rem;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.topBarRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.appNameSmall {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.03em;
+}
+
+.patientName {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.6);
+  padding: 0.25rem 0.75rem;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.homeLink {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  color: rgba(255,255,255,0.8);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.homeLink:hover {
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+.main {
+  min-height: calc(100vh - 140px);
+  padding: 2rem 1.5rem;
+}
+
+.bottomBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1.5rem;
+  background: rgba(0,0,0,0.2);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  position: sticky;
+  bottom: 0;
+}
+
+.repeatBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: rgba(245, 124, 0, 0.15);
+  border: 1px solid rgba(245, 124, 0, 0.35);
+  border-radius: 999px;
+  color: #ffb74d;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.repeatBtn:hover {
+  background: rgba(245, 124, 0, 0.25);
+}
+
+.switchModeLink {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.35);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.switchModeLink:hover {
+  color: rgba(255,255,255,0.6);
+}
