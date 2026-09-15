@@ -1,44 +1,45 @@
 .container {
-  max-width: 700px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 0 1rem 2rem;
+  padding: 0 clamp(0.75rem, 3vw, 1.25rem) clamp(1.5rem, 4vw, 2.5rem);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: clamp(1.25rem, 3vw, 2rem);
 }
 
 /* Greeting box */
 .greetingBox {
   text-align: center;
-  padding: 2.5rem 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 2rem;
-  backdrop-filter: blur(10px);
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 2rem);
+  background: rgba(94, 170, 168, 0.07);
+  border: 1px solid rgba(94, 170, 168, 0.18);
+  border-radius: 1.75rem;
+  backdrop-filter: blur(12px);
 }
 
 .clock {
-  font-size: 2.25rem;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 300;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 0.5rem;
+  color: rgba(240,237,232,0.45);
+  margin-bottom: 0.375rem;
   font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
 }
 
 .greeting {
-  font-size: 2.5rem;
+  font-size: clamp(1.75rem, 5.5vw, 2.75rem);
   font-weight: 800;
   line-height: 1.2;
-  background: linear-gradient(135deg, #ffffff, #ffb74d);
+  background: linear-gradient(135deg, #F0EDE8 20%, #E8714A 85%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
 }
 
 .greetingSub {
-  font-size: 1.25rem;
-  color: rgba(255,255,255,0.6);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: rgba(240,237,232,0.55);
   font-weight: 500;
 }
 
@@ -46,7 +47,7 @@
 .menuGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
+  gap: clamp(0.875rem, 2.5vw, 1.25rem);
 }
 
 .menuCard {
@@ -54,27 +55,28 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.875rem;
-  min-height: 160px;
-  padding: 1.5rem 1rem;
+  gap: clamp(0.625rem, 2vw, 0.875rem);
+  min-height: clamp(130px, 25vw, 165px);
+  padding: clamp(1rem, 3vw, 1.5rem) 0.875rem;
   background: var(--card-gradient, rgba(255,255,255,0.06));
-  border: 2px solid var(--card-border, rgba(255,255,255,0.1));
-  border-radius: 1.75rem;
+  border: 1.5px solid var(--card-border, rgba(255,255,255,0.09));
+  border-radius: 1.5rem;
   cursor: pointer;
   transition: all 0.25s ease;
   text-decoration: none;
-  color: white;
+  color: var(--text-primary);
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
   backdrop-filter: blur(8px);
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
 }
 
 .menuCard:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-  filter: brightness(1.1);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+  filter: brightness(1.08);
 }
 
 .menuCard:active {
@@ -82,43 +84,150 @@
 }
 
 .menuIcon {
-  font-size: 3rem;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));
   transition: transform 0.2s ease;
   line-height: 1;
 }
 
+.menuIcon svg {
+  width: clamp(28px, 7vw, 36px);
+  height: clamp(28px, 7vw, 36px);
+}
+
 .menuCard:hover .menuIcon {
-  transform: scale(1.1);
+  transform: scale(1.12);
 }
 
 .menuLabel {
-  font-size: 1.375rem;
+  font-size: clamp(1rem, 2.8vw, 1.25rem);
   font-weight: 700;
   line-height: 1.3;
 }
 
 .menuDesc {
-  font-size: 1rem;
-  color: rgba(255,255,255,0.55);
+  font-size: clamp(0.8125rem, 2vw, 0.9375rem);
+  color: rgba(240,237,232,0.5);
   font-weight: 400;
 }
+
+/* Interactive grid */
+.interactiveGrid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.875rem, 2.5vw, 1.25rem); }
+
+.reminderPanel, .familyPanel, .contactPanel {
+  padding: clamp(1rem, 3vw, 1.4rem);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 1.5rem;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+}
+
+.reminderPanel {
+  border-color: rgba(232, 113, 74, 0.32);
+  box-shadow: 0 0 24px rgba(232,113,74,0.1);
+}
+
+.familyPanel { border-color: rgba(94, 170, 168, 0.28); }
+
+.panelHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.panelHeading h2 { font-size: clamp(1.125rem, 3vw, 1.375rem); margin-top: 0.25rem; }
+.panelHeading strong { color: #F4A07B; font-size: clamp(1rem, 2.5vw, 1.25rem); }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #E8714A;
+  font-size: clamp(0.6875rem, 1.5vw, 0.8125rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.reminderPanel p, .familyPanel p {
+  color: rgba(240,237,232,0.6);
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  margin: 0.5rem 0 0.875rem;
+}
+
+.doneButton, .nextFamilyButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 48px;
+  padding: 0.675rem 1rem;
+  border: 0;
+  border-radius: 0.875rem;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.doneButton { background: var(--gradient-accent); color: white; }
+.doneButton:disabled { background: rgba(61,139,94,0.3); color: #90CBA8; cursor: default; }
+
+.familyPhoto {
+  height: clamp(100px, 20vw, 130px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: rgba(94,170,168,0.08);
+  color: rgba(240,237,232,0.4);
+}
+
+.familyPhoto img { width: 100%; height: 100%; object-fit: cover; }
+.quizChoices { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.quizChoices button { min-height: 44px; padding: 0.5rem; border: 1.5px solid rgba(94,170,168,0.35); border-radius: 0.75rem; color: var(--text-primary); background: rgba(94,170,168,0.1); cursor: pointer; font-family: inherit; font-size: clamp(0.8125rem, 2vw, 0.9375rem); }
+.correctChoice { background: rgba(61,139,94,0.3) !important; border-color: #5BAD7A !important; }
+.correctText { color: #90CBA8 !important; }
+.incorrectText { color: #F4A07B !important; }
+.nextFamilyButton { width: 100%; background: rgba(255,255,255,0.09); color: var(--text-primary); margin-top: 0.625rem; }
+.emptyFamily { min-height: 180px; display: flex; align-items: center; justify-content: center; gap: 0.6rem; text-align: center; color: rgba(240,237,232,0.45); font-size: clamp(0.875rem, 2vw, 1rem); }
+.contactPanel { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.contactPanel p { margin: 0.25rem 0 0; font-size: clamp(0.875rem, 2vw, 1rem); color: rgba(240,237,232,0.7); }
+.contactPanel a { display: inline-flex; align-items: center; gap: 0.4rem; color: #8EC5C3; font-weight: 700; text-decoration: none; font-size: clamp(0.875rem, 2vw, 1rem); }
 
 /* Tip */
 .tip {
   display: flex;
   align-items: center;
-  gap: 0.875rem;
-  padding: 1.125rem 1.5rem;
-  background: rgba(255, 183, 77, 0.08);
-  border: 1px solid rgba(255, 183, 77, 0.2);
+  gap: 0.75rem;
+  padding: clamp(0.875rem, 2.5vw, 1.125rem) clamp(1rem, 3vw, 1.5rem);
+  background: rgba(232, 113, 74, 0.07);
+  border: 1px solid rgba(232, 113, 74, 0.18);
   border-radius: 1.25rem;
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.75);
+  font-size: clamp(0.9375rem, 2.2vw, 1.0625rem);
+  color: rgba(240,237,232,0.7);
   opacity: 0;
 }
 
 .tipIcon {
-  font-size: 1.5rem;
+  width: clamp(1.25rem, 3vw, 1.5rem);
+  height: clamp(1.25rem, 3vw, 1.5rem);
   flex-shrink: 0;
+  color: #E8714A;
 }
+
+/* ---- Mobile: ≤ 640px ---- */
+@media (max-width: 640px) {
+  .interactiveGrid { grid-template-columns: 1fr; }
+  .contactPanel { align-items: flex-start; flex-direction: column; }
+}
+
+/* ---- Small mobile: ≤ 380px ---- */
+@media (max-width: 380px) {
+  .menuGrid { grid-template-columns: repeat(2, 1fr); gap: 0.625rem; }
+}
+
+
+/* Greeting box */

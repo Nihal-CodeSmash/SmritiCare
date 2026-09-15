@@ -5,11 +5,18 @@ import { useApp } from '@/context/AppContext';
 import { db } from '@/db';
 import { useEffect, useState } from 'react';
 import type { Domain, DifficultyLevel } from '@/types';
+import { Brain, Eye, Calendar, Shapes } from 'lucide-react';
 import styles from './page.module.css';
+
+const DOMAIN_ICONS: Record<Domain, React.ReactNode> = {
+  memory: <Brain strokeWidth={1.5} />,
+  attention: <Eye strokeWidth={1.5} />,
+  routine: <Calendar strokeWidth={1.5} />,
+  pattern: <Shapes strokeWidth={1.5} />,
+};
 
 const DOMAINS: {
   key: Domain;
-  icon: string;
   color: string;
   gradient: string;
   borderColor: string;
@@ -17,37 +24,34 @@ const DOMAINS: {
 }[] = [
   {
     key: 'memory',
-    icon: '🧠',
-    color: '#ce93d8',
-    gradient: 'linear-gradient(135deg, rgba(156,39,176,0.25), rgba(123,31,162,0.1))',
-    borderColor: 'rgba(156,39,176,0.45)',
+    color: '#5EAAA8',
+    gradient: 'linear-gradient(135deg, rgba(94,170,168,0.22), rgba(61,138,136,0.09))',
+    borderColor: 'rgba(94,170,168,0.4)',
     href: '/patient/games/memory',
   },
   {
     key: 'attention',
-    icon: '👀',
-    color: '#81d4fa',
-    gradient: 'linear-gradient(135deg, rgba(2,136,209,0.25), rgba(1,87,155,0.1))',
-    borderColor: 'rgba(2,136,209,0.45)',
+    color: '#E8714A',
+    gradient: 'linear-gradient(135deg, rgba(232,113,74,0.22), rgba(196,90,53,0.09))',
+    borderColor: 'rgba(232,113,74,0.4)',
     href: '/patient/games/attention',
   },
   {
     key: 'routine',
-    icon: '📅',
-    color: '#a5d6a7',
-    gradient: 'linear-gradient(135deg, rgba(56,142,60,0.25), rgba(27,94,32,0.1))',
-    borderColor: 'rgba(56,142,60,0.45)',
+    color: '#90CBA8',
+    gradient: 'linear-gradient(135deg, rgba(61,139,94,0.22), rgba(45,122,80,0.09))',
+    borderColor: 'rgba(61,139,94,0.4)',
     href: '/patient/games/routine',
   },
   {
     key: 'pattern',
-    icon: '🔷',
-    color: '#ffcc80',
-    gradient: 'linear-gradient(135deg, rgba(230,81,0,0.25), rgba(191,54,12,0.1))',
-    borderColor: 'rgba(230,81,0,0.45)',
+    color: '#F5CC75',
+    gradient: 'linear-gradient(135deg, rgba(212,136,14,0.22), rgba(180,110,8,0.09))',
+    borderColor: 'rgba(212,136,14,0.4)',
     href: '/patient/games/pattern',
   },
 ];
+
 
 export default function GamesPage() {
   const { t, currentPatient, speak, language } = useApp();
@@ -115,7 +119,7 @@ export default function GamesPage() {
             } as React.CSSProperties}
             onClick={() => speak(`${t.common.start} ${getDomainLabel(domain.key)}`)}
           >
-            <div className={styles.domainIcon}>{domain.icon}</div>
+          <div className={styles.domainIcon} style={{ color: domain.color }}>{DOMAIN_ICONS[domain.key]}</div>
             <div className={styles.domainInfo}>
               <span className={styles.domainName}>{getDomainLabel(domain.key)}</span>
               <span className={styles.domainDesc}>{getDomainDesc(domain.key)}</span>

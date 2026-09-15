@@ -38,6 +38,19 @@ export interface Patient {
   sync_status: SyncStatus;
 }
 
+export interface FamilyMember {
+  id: string;
+  name: string;
+  relationship: string;
+  image_url: string;
+}
+
+export interface PatientDetails {
+  patient_id: string;
+  address: string;
+  phone: string;
+}
+
 // ---- Game Session ----
 export interface GameSession {
   id: string;

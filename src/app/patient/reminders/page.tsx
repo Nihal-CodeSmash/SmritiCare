@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useApp } from '@/context/AppContext';
 import { db } from '@/db';
 import type { Reminder } from '@/types';
+import { Activity, Bell, Check, Clock3, Droplets, Hospital, Pill } from 'lucide-react';
 import styles from './page.module.css';
 
 function formatTime(time: string) {
@@ -13,11 +14,11 @@ function formatTime(time: string) {
   return `${hour}:${String(m).padStart(2, '0')} ${ampm}`;
 }
 
-const REMINDER_ICONS: Record<string, string> = {
-  medicine: '💊',
-  hydration: '💧',
-  daily_activity: '🏃',
-  appointment: '🏥',
+const REMINDER_ICONS: Record<string, React.ComponentType<{ size?: number; 'aria-hidden'?: boolean }>> = {
+  medicine: Pill,
+  hydration: Droplets,
+  daily_activity: Activity,
+  appointment: Hospital,
 };
 
 const REMINDER_COLORS: Record<string, string> = {
@@ -137,7 +138,7 @@ export default function RemindersPage() {
   return (
     <div className={styles.container}>
       <div className={`${styles.header} animate-fadeInUp`}>
-        <h2 className={styles.title}>⏰ {t.reminders.title}</h2>
+        <h2 className={styles.title}><Bell size={32} /> {t.reminders.title}</h2>
         <p className={styles.subtitle}>
           {language === 'hi'
             ? 'आज के आपके रिमाइंडर'
@@ -147,13 +148,14 @@ export default function RemindersPage() {
 
       {reminders.length === 0 ? (
         <div className={styles.empty}>
-          <span style={{ fontSize: '3rem' }}>✅</span>
+          <Check size={48} />
           <p>{t.reminders.noReminders}</p>
         </div>
       ) : (
         <div className={`${styles.list} stagger`}>
           {reminders.map((reminder) => {
             const isDone = acknowledged.has(reminder.id);
+            const ReminderIcon = REMINDER_ICONS[reminder.type] || Bell;
             return (
               <div
                 key={reminder.id}
@@ -164,7 +166,7 @@ export default function RemindersPage() {
                 } as React.CSSProperties}
               >
                 <div className={styles.reminderLeft}>
-                  <span className={styles.reminderIcon}>{REMINDER_ICONS[reminder.type]}</span>
+                  <span className={styles.reminderIcon}><ReminderIcon size={38} /></span>
                   <div className={styles.reminderContent}>
                     <span className={styles.reminderType}>
                       {getReminderTypeLabel(reminder.type)}
@@ -174,7 +176,7 @@ export default function RemindersPage() {
                       <span className={styles.reminderDesc}>{reminder.description}</span>
                     )}
                     <span className={styles.reminderTime}>
-                      🕐 {formatTime(reminder.scheduled_time)}
+                      <Clock3 size={16} /> {formatTime(reminder.scheduled_time)}
                       {reminder.date && ` · ${reminder.date}`}
                     </span>
                   </div>
@@ -186,7 +188,7 @@ export default function RemindersPage() {
                   disabled={isDone}
                   aria-label={isDone ? t.reminders.done : t.reminders.acknowledge}
                 >
-                  {isDone ? `✓ ${t.reminders.done}` : t.reminders.acknowledge}
+                  {isDone ? <><Check size={18} /> {t.reminders.done}</> : t.reminders.acknowledge}
                 </button>
               </div>
             );
@@ -196,7 +198,7 @@ export default function RemindersPage() {
 
       {acknowledged.size > 0 && (
         <div className={`${styles.progressBox} animate-fadeIn`}>
-          <span>✅</span>
+          <Check size={22} />
           <span>
             {language === 'hi'
               ? `${acknowledged.size} रिमाइंडर पूरे हुए`

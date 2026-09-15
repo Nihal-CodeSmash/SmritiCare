@@ -3,55 +3,58 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: clamp(1.25rem, 3vw, 2rem);
 }
 
 .header { text-align: center; }
-.title { font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem; }
-.subtitle { font-size: 1.125rem; color: rgba(255,255,255,0.6); }
+.title { display: flex; align-items: center; justify-content: center; gap: .6rem; font-size: clamp(1.75rem, 5vw, 2.25rem); font-weight: 800; margin-bottom: 0.375rem; }
+.subtitle { font-size: clamp(0.9375rem, 2.2vw, 1.0625rem); color: rgba(240,237,232,0.55); }
 
 .empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  padding: 4rem 2rem;
-  font-size: 1.25rem;
-  color: rgba(255,255,255,0.5);
+  padding: clamp(2rem, 6vw, 4rem) 2rem;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: rgba(240,237,232,0.45);
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: clamp(0.875rem, 2.5vw, 1.25rem);
 }
 
 .reminderCard {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.25rem;
-  padding: 1.5rem;
-  background: var(--card-bg, rgba(255,255,255,0.07));
-  border: 2px solid var(--card-border, rgba(255,255,255,0.12));
-  border-radius: 1.75rem;
+  gap: clamp(0.875rem, 2.5vw, 1.25rem);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  background: var(--card-bg, rgba(255,255,255,0.065));
+  border: 1.5px solid var(--card-border, rgba(255,255,255,0.1));
+  border-radius: 1.5rem;
   transition: all 0.3s ease;
 }
 
 .reminderDone {
-  opacity: 0.65;
+  opacity: 0.55;
 }
 
 .reminderLeft {
   display: flex;
   align-items: flex-start;
-  gap: 1.25rem;
+  gap: clamp(0.875rem, 2.5vw, 1.25rem);
   flex: 1;
   min-width: 0;
 }
 
 .reminderIcon {
-  font-size: 2.5rem;
+  display: grid;
+  place-items: center;
+  width: clamp(44px, 10vw, 52px);
+  height: clamp(44px, 10vw, 52px);
   flex-shrink: 0;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
@@ -64,54 +67,62 @@
 }
 
 .reminderType {
-  font-size: 0.875rem;
+  font-size: clamp(0.75rem, 1.8vw, 0.875rem);
   font-weight: 600;
-  color: rgba(255,255,255,0.5);
+  color: rgba(240,237,232,0.45);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .reminderTitle {
-  font-size: 1.375rem;
+  font-size: clamp(1.125rem, 3vw, 1.375rem);
   font-weight: 700;
   line-height: 1.3;
 }
 
 .reminderDesc {
-  font-size: 1rem;
-  color: rgba(255,255,255,0.6);
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  color: rgba(240,237,232,0.6);
 }
 
 .reminderTime {
-  font-size: 1rem;
-  color: rgba(255,255,255,0.55);
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  color: rgba(240,237,232,0.5);
   font-weight: 500;
 }
 
 .ackBtn {
-  min-width: 110px;
-  min-height: 60px;
-  padding: 0.875rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-width: 100px;
+  min-height: 56px;
+  padding: 0.75rem 1.125rem;
   background: var(--gradient-accent);
   color: white;
-  font-size: 1.125rem;
+  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
   font-weight: 700;
   border: none;
   border-radius: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
-  box-shadow: 0 4px 15px rgba(245,124,0,0.3);
+  box-shadow: 0 4px 14px rgba(232,113,74,0.3);
+  font-family: inherit;
 }
 
 .ackBtn:hover:not(:disabled) {
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(245,124,0,0.4);
+  box-shadow: 0 6px 20px rgba(232,113,74,0.42);
 }
 
 .ackBtnDone {
-  background: rgba(56,142,60,0.3);
-  color: #a5d6a7;
+  background: rgba(61,139,94,0.25);
+  color: #90CBA8;
   box-shadow: none;
   cursor: default;
 }
@@ -119,12 +130,38 @@
 .progressBox {
   display: flex;
   align-items: center;
-  gap: 0.875rem;
-  padding: 1rem 1.5rem;
-  background: rgba(56,142,60,0.12);
-  border: 1px solid rgba(76,175,80,0.3);
+  gap: 0.75rem;
+  padding: clamp(0.75rem, 2.5vw, 1rem) clamp(1rem, 3vw, 1.5rem);
+  background: rgba(61,139,94,0.1);
+  border: 1px solid rgba(94,170,168,0.28);
   border-radius: 1.25rem;
-  font-size: 1.125rem;
-  color: #a5d6a7;
+  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+  color: #90CBA8;
   font-weight: 600;
 }
+
+/* ---- Mobile: ≤ 480px ---- */
+@media (max-width: 480px) {
+  .reminderCard {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.875rem;
+  }
+
+  .ackBtn {
+    width: 100%;
+    min-height: 52px;
+  }
+
+  .reminderLeft {
+    align-items: center;
+  }
+}
+
+
+.header { text-align: center; }
+.title { display: flex; align-items: center; justify-content: center; gap: .6rem; font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem; }
+.subtitle { font-size: 1.125rem; color: rgba(255,255,255,0.6); }
+
+.empty {
+  display: flex;

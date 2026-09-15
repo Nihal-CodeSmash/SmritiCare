@@ -4,17 +4,18 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
 import type { Language } from '@/types';
+import { Brain, UserRound, Stethoscope, Volume2, VolumeX } from 'lucide-react';
 import styles from './page.module.css';
 
 export default function HomePage() {
   const router = useRouter();
-  const { setLanguage, language, speak } = useApp();
+  const { setLanguage, language, speak, stopSpeaking, isSpeaking } = useApp();
   const [selected, setSelected] = useState<Language>(language);
   const [animating, setAnimating] = useState(false);
 
-  const languages: { code: Language; label: string; nativeLabel: string; flag: string }[] = [
-    { code: 'en', label: 'English', nativeLabel: 'English', flag: '🇮🇳' },
-    { code: 'hi', label: 'Hindi', nativeLabel: 'हिन्दी', flag: '🇮🇳' },
+  const languages: { code: Language; label: string; nativeLabel: string }[] = [
+    { code: 'en', label: 'English', nativeLabel: 'English' },
+    { code: 'hi', label: 'Hindi', nativeLabel: 'हिन्दी' },
   ];
 
   const handleLanguageSelect = (lang: Language) => {
@@ -34,6 +35,17 @@ export default function HomePage() {
     ? 'स्वागत है! अपनी भाषा चुनें'
     : 'Welcome! Please select your language';
 
+  const handleVoice = () => {
+    if (isSpeaking) {
+      stopSpeaking();
+    } else {
+      speak(selected === 'hi'
+        ? 'स्वागत है स्मृति केयर में। रोगी मोड या देखभालकर्ता मोड चुनें।'
+        : 'Welcome to Smriti Care. Please choose Patient Mode or Caregiver Mode to continue.'
+      );
+    }
+  };
+
   return (
     <main className={`${styles.main} ${animating ? styles.fadeOut : ''}`}>
       {/* Background decoration */}
@@ -47,16 +59,14 @@ export default function HomePage() {
         {/* Logo / App Name */}
         <div className={`${styles.header} animate-fadeInUp`}>
           <div className={styles.logoWrap}>
-            <span className={styles.logoIcon}>🧠</span>
+            <Brain className={styles.logoIcon} strokeWidth={1.5} />
           </div>
           <h1 className={styles.appName}>SMRITI CARE</h1>
           <p className={styles.tagline}>
             {selected === 'hi' ? 'आपका स्मृति साथी' : 'Your Memory Companion'}
           </p>
           <p className={styles.ministry}>
-            {selected === 'hi'
-              ? 'Ministry of Development of North Eastern Region'
-              : 'Ministry of Development of North Eastern Region'}
+            Ministry of Development of North Eastern Region
           </p>
         </div>
 
@@ -72,9 +82,9 @@ export default function HomePage() {
                 onClick={() => handleLanguageSelect(lang.code)}
                 aria-pressed={selected === lang.code}
               >
-                <span className={styles.langFlag}>{lang.flag}</span>
                 <span className={styles.langNative}>{lang.nativeLabel}</span>
                 <span className={styles.langName}>{lang.label}</span>
+                {selected === lang.code && <span className={styles.langCheck} aria-hidden="true">✓</span>}
               </button>
             ))}
           </div>
@@ -92,7 +102,9 @@ export default function HomePage() {
             className={styles.modeBtn}
             onClick={() => handleContinue('patient')}
           >
-            <div className={styles.modeBtnIcon}>👤</div>
+            <div className={styles.modeBtnIconWrap}>
+              <UserRound className={styles.modeBtnIcon} strokeWidth={1.5} />
+            </div>
             <div className={styles.modeBtnContent}>
               <span className={styles.modeBtnTitle}>
                 {selected === 'hi' ? 'रोगी मोड' : 'Patient Mode'}
@@ -103,7 +115,7 @@ export default function HomePage() {
                   : 'Play games, practice memory, view reminders'}
               </span>
             </div>
-            <span className={styles.modeBtnArrow}>→</span>
+            <span className={styles.modeBtnArrow} aria-hidden="true">→</span>
           </button>
 
           {/* Caregiver Mode */}
@@ -112,7 +124,9 @@ export default function HomePage() {
             className={`${styles.modeBtn} ${styles.modeBtnCaregiver}`}
             onClick={() => handleContinue('caregiver')}
           >
-            <div className={styles.modeBtnIcon}>🩺</div>
+            <div className={styles.modeBtnIconWrap}>
+              <Stethoscope className={styles.modeBtnIcon} strokeWidth={1.5} />
+            </div>
             <div className={styles.modeBtnContent}>
               <span className={styles.modeBtnTitle}>
                 {selected === 'hi' ? 'देखभालकर्ता मोड' : 'Caregiver Mode'}
@@ -123,21 +137,21 @@ export default function HomePage() {
                   : 'Dashboard, progress, manage reminders'}
               </span>
             </div>
-            <span className={styles.modeBtnArrow}>→</span>
+            <span className={styles.modeBtnArrow} aria-hidden="true">→</span>
           </button>
         </div>
 
         {/* Voice Button */}
         <button
           id="btn-hear-instructions"
-          className={styles.voiceBtn}
-          onClick={() => speak(selected === 'hi'
-            ? 'स्वागत है स्मृति केयर में। रोगी मोड या देखभालकर्ता मोड चुनें।'
-            : 'Welcome to Smriti Care. Please choose Patient Mode or Caregiver Mode to continue.'
-          )}
-          aria-label="Hear instructions"
+          className={`${styles.voiceBtn} ${isSpeaking ? styles.voiceBtnActive : ''}`}
+          onClick={handleVoice}
+          aria-label={isSpeaking ? 'Stop speaking' : 'Hear instructions'}
         >
-          🔊 {selected === 'hi' ? 'निर्देश सुनें' : 'Hear Instructions'}
+          {isSpeaking
+            ? <><VolumeX size={18} /> {selected === 'hi' ? 'रोकें' : 'Stop'}</>
+            : <><Volume2 size={18} /> {selected === 'hi' ? 'निर्देश सुनें' : 'Hear Instructions'}</>
+          }
         </button>
 
         <p className={styles.footer}>
@@ -147,3 +161,4 @@ export default function HomePage() {
     </main>
   );
 }
+

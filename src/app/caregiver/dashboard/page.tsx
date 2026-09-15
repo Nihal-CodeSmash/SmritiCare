@@ -5,6 +5,7 @@ import { useApp } from '@/context/AppContext';
 import { db } from '@/db';
 import type { Alert, DomainScore, Patient, DomainStats } from '@/types';
 import styles from './page.module.css';
+import { CheckCircle2, TriangleAlert, UserRound } from 'lucide-react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -146,7 +147,7 @@ export default function CaregiverDashboard() {
   if (!currentPatient) {
     return (
       <div className={styles.emptyState}>
-        <span className={styles.emptyIcon}>👤</span>
+        <UserRound className={styles.emptyIcon} size={52} />
         <h2>{t.caregiver.noPatients}</h2>
         <button className="btn-primary" style={{ maxWidth: '200px', marginTop: '1rem' }}>
           {t.caregiver.createPatient}
@@ -174,9 +175,9 @@ export default function CaregiverDashboard() {
           <h3 className={styles.cardTitle}>{t.caregiver.overallTrend}</h3>
           <div className={styles.trendSummary}>
             {alerts.length > 0 ? (
-              <span className={styles.trendWarning}>⚠️ Review Recommended</span>
+              <span className={styles.trendWarning}><TriangleAlert size={18} /> Review Recommended</span>
             ) : (
-              <span className={styles.trendGood}>✅ Stable Performance</span>
+              <span className={styles.trendGood}><CheckCircle2 size={18} /> Stable Performance</span>
             )}
             <div className={styles.trendSub}>Based on last 10 sessions</div>
           </div>
@@ -186,7 +187,7 @@ export default function CaregiverDashboard() {
       {/* Alerts Panel */}
       {alerts.length > 0 && (
         <div className={styles.alertsPanel}>
-          <h3 className={styles.panelTitle}>⚠️ Active Alerts</h3>
+          <h3 className={styles.panelTitle}><TriangleAlert size={20} /> Active Alerts</h3>
           <div className={styles.alertList}>
             {alerts.map(alert => (
               <div key={alert.id} className={`alert-card ${alert.type === 'decline' ? 'decline' : 'warning'}`}>

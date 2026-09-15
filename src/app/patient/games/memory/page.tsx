@@ -14,6 +14,7 @@ import {
   shuffle,
 } from '@/lib/gameContent';
 import type { GameContent, DifficultyLevel } from '@/types';
+import { Brain, Trophy, Gamepad2 } from 'lucide-react';
 import styles from './page.module.css';
 
 type Phase = 'intro' | 'show' | 'recall' | 'feedback' | 'complete';
@@ -163,7 +164,7 @@ export default function MemoryGame() {
     <div className={styles.container}>
       {/* Header */}
       <div className={styles.gameHeader}>
-        <div className={styles.domainBadge}>🧠 {t.games.memory.name}</div>
+        <div className={styles.domainBadge}><Brain size={16} /> {t.games.memory.name}</div>
         <div className={styles.roundInfo}>
           {language === 'hi' ? `राउंड ${round}/${totalRounds}` : `Round ${round}/${totalRounds}`}
         </div>
@@ -177,7 +178,7 @@ export default function MemoryGame() {
       {/* INTRO Phase */}
       {phase === 'intro' && (
         <div className={`${styles.phaseBox} animate-fadeInUp`}>
-          <div className={styles.phaseEmoji}>🧠</div>
+          <div className={styles.phaseEmoji}><Brain strokeWidth={1.2} /></div>
           <h2 className={styles.phaseTitle}>{t.games.memory.name}</h2>
           <p className={styles.phaseDesc}>{t.games.instruction.memory}</p>
           <div className={styles.difficultyInfo}>
@@ -191,7 +192,7 @@ export default function MemoryGame() {
             </span>
           </div>
           <button id="btn-memory-start" className="btn-primary" onClick={handleStart}>
-            🎮 {t.common.start}
+            <Gamepad2 size={22} /> {t.common.start}
           </button>
         </div>
       )}
@@ -274,7 +275,7 @@ export default function MemoryGame() {
       {/* COMPLETE Phase */}
       {phase === 'complete' && (
         <div className={`${styles.completeBox} animate-fadeInUp`}>
-          <div className={styles.completeTrophy}>🏆</div>
+          <div className={styles.completeTrophy}><Trophy strokeWidth={1.2} /></div>
           <h2 className={styles.completeTitle}>{t.games.sessionComplete}</h2>
           <div className={styles.scoreDisplay}>
             <svg viewBox="0 0 120 120" className={styles.scoreRingSvg}>
@@ -318,7 +319,7 @@ export default function MemoryGame() {
                 sessionIdRef.current = crypto.randomUUID();
               }}
             >
-              🎮 {t.games.nextGame}
+              <Gamepad2 size={18} /> {t.games.nextGame}
             </button>
             <button
               id="btn-game-home"

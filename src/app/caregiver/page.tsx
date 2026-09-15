@@ -6,6 +6,7 @@ import { useApp } from '@/context/AppContext';
 import { db } from '@/db';
 import type { Patient } from '@/types';
 import styles from './page.module.css';
+import { Brain, Mail, Lock, Lightbulb } from 'lucide-react';
 
 export default function CaregiverLogin() {
   const router = useRouter();
@@ -76,7 +77,7 @@ export default function CaregiverLogin() {
 
       <div className={`${styles.card} animate-fadeInUp`}>
         <div className={styles.logoWrap}>
-          <span className={styles.logo}>🧠</span>
+          <span className={styles.logo}><Brain strokeWidth={1.5} /></span>
         </div>
         <h1 className={styles.title}>SMRITI CARE</h1>
         <p className={styles.subtitle}>{t.caregiver.dashboard}</p>
@@ -84,7 +85,7 @@ export default function CaregiverLogin() {
         <form onSubmit={handleLogin} className={styles.form} id="form-caregiver-login">
           <div className={styles.field}>
             <label htmlFor="email" className={styles.label}>
-              📧 {t.caregiver.email}
+              <Mail size={18} /> {t.caregiver.email}
             </label>
             <input
               id="email"
@@ -100,7 +101,7 @@ export default function CaregiverLogin() {
 
           <div className={styles.field}>
             <label htmlFor="password" className={styles.label}>
-              🔒 {t.caregiver.password}
+              <Lock size={18} /> {t.caregiver.password}
             </label>
             <input
               id="password"
@@ -135,8 +136,9 @@ export default function CaregiverLogin() {
         <div className={styles.demo}>
           <p>
             {language === 'hi'
-              ? '💡 डेमो: कोई भी ईमेल और पासवर्ड डालें'
-              : '💡 Demo: Enter any email & password to continue'}
+              ? <><Lightbulb size={15} /> डेमो: कोई भी ईमेल और पासवर्ड डालें</>
+              : <><Lightbulb size={15} /> Demo: Enter any email &amp; password to continue</>}
+
           </p>
         </div>
 

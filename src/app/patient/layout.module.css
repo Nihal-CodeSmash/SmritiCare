@@ -2,57 +2,74 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.875rem 1.5rem;
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(10px);
+  padding: 0.75rem 1.25rem;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,0.08);
   position: sticky;
   top: 0;
   z-index: 50;
+  gap: 0.5rem;
 }
 
 .topBarLeft {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
+  min-width: 0;
 }
 
 .topBarRight {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.625rem;
+  flex-shrink: 0;
 }
 
 .appNameSmall {
-  font-size: 1.125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 1rem;
   font-weight: 700;
   color: rgba(255,255,255,0.9);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .patientName {
-  font-size: 1rem;
+  font-size: 0.875rem;
   color: rgba(255,255,255,0.6);
-  padding: 0.25rem 0.75rem;
+  padding: 0.2rem 0.65rem;
   background: rgba(255,255,255,0.08);
   border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.statusLabel {
+  display: inline;
 }
 
 .homeLink {
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  padding: 0.5rem 1rem;
+  padding: 0.45rem 0.875rem;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 999px;
-  color: rgba(255,255,255,0.8);
-  font-size: 1rem;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.9375rem;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
-  min-height: 44px;
+  min-height: 40px;
+  white-space: nowrap;
 }
 
 .homeLink:hover {
@@ -60,49 +77,146 @@
   color: white;
 }
 
+.homeLinkLabel {
+  display: inline;
+}
+
 .main {
-  min-height: calc(100vh - 140px);
-  padding: 2rem 1.5rem;
+  min-height: calc(100dvh - 130px);
+  padding: 1.5rem 1.25rem;
 }
 
 .bottomBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.875rem 1.5rem;
-  background: rgba(0,0,0,0.2);
+  padding: 0.75rem 1.25rem;
+  background: rgba(0,0,0,0.25);
   border-top: 1px solid rgba(255,255,255,0.06);
   position: sticky;
   bottom: 0;
+  bottom: env(safe-area-inset-bottom, 0);
+  gap: 0.5rem;
+}
+
+.voiceControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .repeatBtn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
-  background: rgba(245, 124, 0, 0.15);
-  border: 1px solid rgba(245, 124, 0, 0.35);
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  background: rgba(232, 113, 74, 0.15);
+  border: 1px solid rgba(232, 113, 74, 0.35);
   border-radius: 999px;
-  color: #ffb74d;
-  font-size: 1rem;
+  color: #f4a27d;
+  font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 44px;
+  min-height: 40px;
 }
 
-.repeatBtn:hover {
-  background: rgba(245, 124, 0, 0.25);
+.repeatBtn:hover:not(:disabled) {
+  background: rgba(232, 113, 74, 0.25);
+}
+
+.repeatBtnActive {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.stopBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  background: rgba(198, 40, 40, 0.18);
+  border: 1px solid rgba(239, 83, 80, 0.45);
+  border-radius: 999px;
+  color: #ef9a9a;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 40px;
+  animation: fadeIn 0.2s ease;
+}
+
+.stopBtn:hover {
+  background: rgba(198, 40, 40, 0.3);
+  color: #ffcdd2;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.voiceBtnLabel {
+  display: inline;
 }
 
 .switchModeLink {
-  font-size: 0.875rem;
-  color: rgba(255,255,255,0.35);
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.3);
   text-decoration: none;
   transition: color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .switchModeLink:hover {
   color: rgba(255,255,255,0.6);
+}
+
+/* ---- Mobile: ≤ 480px ---- */
+@media (max-width: 480px) {
+  .topBar {
+    padding: 0.6rem 1rem;
+  }
+
+  .patientName {
+    display: none;
+  }
+
+  .statusLabel {
+    display: none;
+  }
+
+  .homeLinkLabel {
+    display: none;
+  }
+
+  .homeLink {
+    padding: 0.45rem 0.6rem;
+  }
+
+  .main {
+    padding: 1.25rem 1rem;
+  }
+
+  .bottomBar {
+    padding: 0.6rem 1rem;
+  }
+
+  .voiceBtnLabel {
+    display: none;
+  }
+
+  .repeatBtn,
+  .stopBtn {
+    padding: 0.55rem 0.7rem;
+    min-height: 44px;
+    min-width: 44px;
+    justify-content: center;
+  }
+
+  .switchModeLink {
+    font-size: 0.75rem;
+  }
 }

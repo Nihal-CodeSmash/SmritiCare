@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/context/AppContext';
+import { BarChart3, Bell, Brain, LogOut, Users } from 'lucide-react';
 import styles from './layout.module.css';
 
 export default function CaregiverLayout({ children }: { children: React.ReactNode }) {
@@ -40,7 +41,7 @@ export default function CaregiverLayout({ children }: { children: React.ReactNod
         {/* Sidebar */}
         <aside className={styles.sidebar}>
           <div className={styles.brand}>
-            <span className={styles.logo}>🧠</span>
+            <span className={styles.logo}><Brain size={28} /></span>
             <div className={styles.brandText}>
               <span className={styles.brandName}>SMRITI CARE</span>
               <span className={styles.brandSub}>{t.caregiver.dashboard}</span>
@@ -52,21 +53,21 @@ export default function CaregiverLayout({ children }: { children: React.ReactNod
               href="/caregiver/dashboard"
               className={`${styles.navItem} ${pathname === '/caregiver/dashboard' ? styles.active : ''}`}
             >
-              <span className={styles.navIcon}>📊</span>
+              <span className={styles.navIcon}><BarChart3 size={20} /></span>
               {t.caregiver.overview}
             </Link>
             <Link
               href="/caregiver/patients"
               className={`${styles.navItem} ${pathname === '/caregiver/patients' ? styles.active : ''}`}
             >
-              <span className={styles.navIcon}>👥</span>
+              <span className={styles.navIcon}><Users size={20} /></span>
               {t.caregiver.patient}
             </Link>
             <Link
               href="/caregiver/reminders"
               className={`${styles.navItem} ${pathname === '/caregiver/reminders' ? styles.active : ''}`}
             >
-              <span className={styles.navIcon}>⏰</span>
+              <span className={styles.navIcon}><Bell size={20} /></span>
               {t.caregiver.reminders}
             </Link>
           </nav>
@@ -80,7 +81,7 @@ export default function CaregiverLayout({ children }: { children: React.ReactNod
               </div>
             </div>
             <button onClick={handleLogout} className={styles.logoutBtn}>
-              <span className={styles.navIcon}>🚪</span>
+              <span className={styles.navIcon}><LogOut size={20} /></span>
               {t.caregiver.logout}
             </button>
           </div>

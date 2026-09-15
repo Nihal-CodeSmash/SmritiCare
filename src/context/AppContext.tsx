@@ -1,11 +1,11 @@
 'use client';
 
 // =============================================
-// SMRITI CARE — App Context (Language, Patient, Online status)
+// SMRITI CARE — App Context (Language, Patient, Online status, TTS)
 // =============================================
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import type { Language, Region, Patient, User } from '@/types';
+import type { FamilyMember, Language, Patient, PatientDetails, Region, User } from '@/types';
 import { getTranslations } from '@/i18n';
 
 interface AppContextValue {
@@ -18,10 +18,16 @@ interface AppContextValue {
   setCurrentPatient: (p: Patient | null) => void;
   currentUser: User | null;
   setCurrentUser: (u: User | null) => void;
+  patientDetails: PatientDetails;
+  setPatientDetails: (details: PatientDetails) => void;
+  familyMembers: FamilyMember[];
+  setFamilyMembers: (members: FamilyMember[]) => void;
   isOnline: boolean;
   pendingSyncCount: number;
   setPendingSyncCount: (n: number) => void;
   speak: (text: string) => void;
+  stopSpeaking: () => void;
+  isSpeaking: boolean;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -31,8 +37,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [region, setRegion] = useState<Region>('general');
   const [currentPatient, setCurrentPatient] = useState<Patient | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [patientDetails, setPatientDetailsState] = useState<PatientDetails>({ patient_id: 'demo-patient', address: '', phone: '' });
+  const [familyMembers, setFamilyMembersState] = useState<FamilyMember[]>([]);
   const [isOnline, setIsOnline] = useState(true);
   const [pendingSyncCount, setPendingSyncCount] = useState(0);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const t = getTranslations(language);
 
@@ -58,6 +67,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const savedUser = localStorage.getItem('smriti-user');
     if (savedUser) {
       try { setCurrentUser(JSON.parse(savedUser)); } catch { /* ignore */ }
+    }
+
+    const savedDetails = localStorage.getItem('smriti-patient-details');
+    if (savedDetails) {
+      try { setPatientDetailsState(JSON.parse(savedDetails)); } catch { /* ignore */ }
+    }
+
+    const savedFamily = localStorage.getItem('smriti-family-members');
+    if (savedFamily) {
+      try { setFamilyMembersState(JSON.parse(savedFamily)); } catch { /* ignore */ }
     }
 
     setIsOnline(navigator.onLine);
@@ -90,6 +109,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [currentUser]);
 
+  const setPatientDetails = useCallback((details: PatientDetails) => {
+    setPatientDetailsState(details);
+    if (typeof window !== 'undefined') localStorage.setItem('smriti-patient-details', JSON.stringify(details));
+  }, []);
+
+  const setFamilyMembers = useCallback((members: FamilyMember[]) => {
+    setFamilyMembersState(members);
+    if (typeof window !== 'undefined') localStorage.setItem('smriti-family-members', JSON.stringify(members));
+  }, []);
+
   // TTS speak helper
   const speak = useCallback((text: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
@@ -99,8 +128,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     utterance.rate = 0.85;
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
     window.speechSynthesis.speak(utterance);
   }, [language]);
+
+  // TTS stop helper
+  const stopSpeaking = useCallback(() => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    setIsSpeaking(false);
+  }, []);
 
   return (
     <AppContext.Provider
@@ -114,10 +153,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setCurrentPatient,
         currentUser,
         setCurrentUser,
+        patientDetails,
+        setPatientDetails,
+        familyMembers,
+        setFamilyMembers,
         isOnline,
         pendingSyncCount,
         setPendingSyncCount,
         speak,
+        stopSpeaking,
+        isSpeaking,
       }}
     >
       {children}
