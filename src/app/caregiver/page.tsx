@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useApp } from '@/context/AppContext';
 import { db } from '@/db';
 import type { Patient } from '@/types';
 import styles from './page.module.css';
-import { Brain, Mail, Lock, Lightbulb } from 'lucide-react';
+import { Mail, Lock, Lightbulb } from 'lucide-react';
+import Image from 'next/image';
 
 export default function CaregiverLogin() {
   const router = useRouter();
@@ -64,7 +66,7 @@ export default function CaregiverLogin() {
 
       setTimeout(() => router.push('/caregiver/dashboard'), 300);
     } else {
-      setError(language === 'hi' ? 'कृपया ईमेल और पासवर्ड दर्ज करें' : 'Please enter email and password');
+      setError(t.caregiver.loginError);
       setLoading(false);
     }
   };
@@ -77,7 +79,7 @@ export default function CaregiverLogin() {
 
       <div className={`${styles.card} animate-fadeInUp`}>
         <div className={styles.logoWrap}>
-          <span className={styles.logo}><Brain strokeWidth={1.5} /></span>
+          <Image src="/images/smriticare-logo.png" alt="SmritiCare Logo" width={64} height={64} className={styles.logo} priority />
         </div>
         <h1 className={styles.title}>SMRITI CARE</h1>
         <p className={styles.subtitle}>{t.caregiver.dashboard}</p>
@@ -135,15 +137,12 @@ export default function CaregiverLogin() {
 
         <div className={styles.demo}>
           <p>
-            {language === 'hi'
-              ? <><Lightbulb size={15} /> डेमो: कोई भी ईमेल और पासवर्ड डालें</>
-              : <><Lightbulb size={15} /> Demo: Enter any email &amp; password to continue</>}
-
+            <Lightbulb size={15} /> {t.caregiver.demo}
           </p>
         </div>
 
         <div className={styles.backLink}>
-          <a href="/">← {language === 'hi' ? 'वापस जाएँ' : 'Back to home'}</a>
+          <Link href="/">← {t.caregiver.backToHome}</Link>
         </div>
       </div>
     </div>
@@ -162,7 +161,7 @@ async function seedDemoData(patientId: string) {
       date.setDate(date.getDate() - i);
 
       // Memory starts high, drops — simulates decline for demo
-      let baseScore = domain === 'memory' ? 82 : domain === 'attention' ? 75 : domain === 'routine' ? 68 : 79;
+      const baseScore = domain === 'memory' ? 82 : domain === 'attention' ? 75 : domain === 'routine' ? 68 : 79;
       const noise = Math.floor(Math.random() * 10) - 5;
       // Simulate decline in last 3 sessions for memory
       const decline = (domain === 'memory' && i < 3) ? -20 : 0;

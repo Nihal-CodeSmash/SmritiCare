@@ -100,9 +100,7 @@ export default function GamesPage() {
       <div className={`${styles.header} animate-fadeInUp`}>
         <h2 className={styles.title}>{t.games.title}</h2>
         <p className={styles.subtitle}>
-          {language === 'hi'
-            ? 'अभ्यास जारी रखें — हर खेल आपकी याददाश्त मजबूत करता है'
-            : 'Keep practicing — every game sharpens your mind'}
+          {t.games.subtitle}
         </p>
       </div>
 
@@ -137,9 +135,7 @@ export default function GamesPage() {
       <div className={`${styles.infoBox} animate-fadeIn`} style={{ animationDelay: '0.5s' }}>
         <span>🌟</span>
         <span>
-          {language === 'hi'
-            ? 'कठिनाई स्तर आपके प्रदर्शन के अनुसार स्वचालित रूप से बदलता है'
-            : 'Difficulty adapts automatically based on your recent performance'}
+          {t.games.dashboardInstruction || 'Instruction: Use this dashboard to view your progress and score in games.'}
         </span>
       </div>
     </div>

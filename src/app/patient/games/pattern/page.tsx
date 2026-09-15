@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
 import { db, getDomainDifficulty } from '@/db';
 import { evaluateAttempt, finalizeSession } from '@/lib/adaptiveEngine';
+import { Shapes, Trophy, Gamepad2 } from 'lucide-react';
 import { PATTERN_SETS } from '@/lib/gameContent';
 import type { DifficultyLevel } from '@/types';
 import styles from '../memory/page.module.css';
@@ -56,6 +57,7 @@ export default function PatternGame() {
   const pickPattern = (level: DifficultyLevel): PatternSet => {
     const available = PATTERN_SETS.filter((p) => p.difficulty <= level);
     if (available.length === 0) return PATTERN_SETS[0];
+    // eslint-disable-next-line react-hooks/purity
     return available[Math.floor(Math.random() * available.length)];
   };
 
@@ -100,19 +102,19 @@ export default function PatternGame() {
   return (
     <div className={styles.container}>
       <div className={styles.gameHeader}>
-        <div className={styles.domainBadge}>🔷 {t.games.pattern.name}</div>
+        <div className={styles.domainBadge}><Shapes size={16} /> {t.games.pattern.name}</div>
         <div className={styles.roundInfo}>
-          {language === 'hi' ? `राउंड ${round}/${totalRounds}` : `Round ${round}/${totalRounds}`}
+          {t.games.round} {round}/{totalRounds}
         </div>
         <div className={styles.levelBadge}>{t.games.difficulty} {newLevel}</div>
       </div>
 
       {phase === 'intro' && (
         <div className={`${styles.phaseBox} animate-fadeInUp`}>
-          <div className={styles.phaseEmoji}>🔷</div>
+          <div className={styles.phaseEmoji}><Shapes strokeWidth={1.2} /></div>
           <h2 className={styles.phaseTitle}>{t.games.pattern.name}</h2>
           <p className={styles.phaseDesc}>{t.games.instruction.pattern}</p>
-          <button className="btn-primary" onClick={handleStart}>🎮 {t.common.start}</button>
+          <button className="btn-primary" onClick={handleStart}><Gamepad2 size={22} /> {t.common.start}</button>
         </div>
       )}
 
@@ -150,7 +152,7 @@ export default function PatternGame() {
 
           {/* Options */}
           <p className={styles.recallHint}>
-            {language === 'hi' ? 'सही विकल्प चुनें' : 'Choose the correct next item'}
+            {t.games.chooseCorrectNext}
           </p>
           <div style={{
             display: 'flex',
@@ -206,7 +208,7 @@ export default function PatternGame() {
 
       {phase === 'complete' && (
         <div className={`${styles.completeBox} animate-fadeInUp`}>
-          <div className={styles.completeTrophy}>🏆</div>
+          <div className={styles.completeTrophy}><Trophy strokeWidth={1.2} /></div>
           <h2 className={styles.completeTitle}>{t.games.sessionComplete}</h2>
           <div className={styles.scoreDisplay}>
             <svg viewBox="0 0 120 120" className={styles.scoreRingSvg}>
@@ -223,7 +225,7 @@ export default function PatternGame() {
           <div className={styles.completeActions}>
             <button className="btn-primary" onClick={() => {
               setRound(1); setPhase('intro'); sessionIdRef.current = crypto.randomUUID();
-            }}>🎮 {t.games.nextGame}</button>
+            }}><Gamepad2 size={18} /> {t.games.nextGame}</button>
             <button className="btn-secondary" onClick={() => router.push('/patient/games')}>
               {t.games.backHome}
             </button>

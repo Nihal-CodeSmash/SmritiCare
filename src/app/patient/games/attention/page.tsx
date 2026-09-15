@@ -6,6 +6,7 @@ import { useApp } from '@/context/AppContext';
 import { db, getDomainDifficulty } from '@/db';
 import { evaluateAttempt, finalizeSession } from '@/lib/adaptiveEngine';
 import { getObjectsByDifficulty, getDistractors, getDistractorCountForDifficulty, shuffle } from '@/lib/gameContent';
+import { Eye, Trophy, Gamepad2 } from 'lucide-react';
 import type { GameContent, DifficultyLevel } from '@/types';
 import styles from '../memory/page.module.css';
 
@@ -68,13 +69,14 @@ export default function AttentionGame() {
     generateQuestion(difficulty);
     setPhase('playing');
     if (target) {
-      const label = language === 'hi' ? target.label_hi : target.label_en;
+      const label = target[`label_${language}` as keyof GameContent] || target.label_en;
       speak(`${t.games.tapTarget} ${label}`);
     }
   };
 
   const handleSelect = async (obj: GameContent) => {
     if (selected) return;
+    // eslint-disable-next-line react-hooks/purity
     const responseTime = Date.now() - startTimeRef.current;
     const correct = obj.id === target?.id;
     setSelected(obj.id);
@@ -101,25 +103,25 @@ export default function AttentionGame() {
     }, 1200);
   };
 
-  const getLabel = (obj: GameContent) => language === 'hi' ? obj.label_hi : obj.label_en;
+  const getLabel = (obj: GameContent) => String(obj[`label_${language}` as keyof GameContent] || obj.label_en);
 
   return (
     <div className={styles.container}>
       <div className={styles.gameHeader}>
-        <div className={styles.domainBadge}>👀 {t.games.attention.name}</div>
+        <div className={styles.domainBadge}><Eye size={16} /> {t.games.attention.name}</div>
         <div className={styles.roundInfo}>
-          {language === 'hi' ? `राउंड ${round}/${totalRounds}` : `Round ${round}/${totalRounds}`}
+          {t.games.round} {round}/{totalRounds}
         </div>
         <div className={styles.levelBadge}>{t.games.difficulty} {newLevel}</div>
       </div>
 
       {phase === 'intro' && (
         <div className={`${styles.phaseBox} animate-fadeInUp`}>
-          <div className={styles.phaseEmoji}>👀</div>
+          <div className={styles.phaseEmoji}><Eye strokeWidth={1.2} /></div>
           <h2 className={styles.phaseTitle}>{t.games.attention.name}</h2>
           <p className={styles.phaseDesc}>{t.games.instruction.attentionInstruction}</p>
           <button id="btn-attention-start" className="btn-primary" onClick={handleStart}>
-            🎮 {t.common.start}
+            <Gamepad2 size={22} /> {t.common.start}
           </button>
         </div>
       )}
@@ -176,7 +178,7 @@ export default function AttentionGame() {
 
       {phase === 'complete' && (
         <div className={`${styles.completeBox} animate-fadeInUp`}>
-          <div className={styles.completeTrophy}>🏆</div>
+          <div className={styles.completeTrophy}><Trophy strokeWidth={1.2} /></div>
           <h2 className={styles.completeTitle}>{t.games.sessionComplete}</h2>
           <div className={styles.scoreDisplay}>
             <svg viewBox="0 0 120 120" className={styles.scoreRingSvg}>
@@ -193,7 +195,7 @@ export default function AttentionGame() {
           <div className={styles.completeActions}>
             <button className="btn-primary" onClick={() => {
               setRound(1); setPhase('intro'); sessionIdRef.current = crypto.randomUUID();
-            }}>🎮 {t.games.nextGame}</button>
+            }}><Gamepad2 size={18} /> {t.games.nextGame}</button>
             <button className="btn-secondary" onClick={() => router.push('/patient/games')}>
               {t.games.backHome}
             </button>

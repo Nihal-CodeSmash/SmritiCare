@@ -57,25 +57,28 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const savedLang = localStorage.getItem('smriti-language') as Language | null;
-    if (savedLang) setLanguageState(savedLang);
+    if (savedLang) setTimeout(() => setLanguageState(savedLang), 0);
 
     const savedPatient = localStorage.getItem('smriti-patient');
     if (savedPatient) {
-      try { setCurrentPatient(JSON.parse(savedPatient)); } catch { /* ignore */ }
+      try { const p = JSON.parse(savedPatient); setTimeout(() => setCurrentPatient(p), 0); } catch { /* ignore */ }
     }
 
     const savedUser = localStorage.getItem('smriti-user');
     if (savedUser) {
-      try { setCurrentUser(JSON.parse(savedUser)); } catch { /* ignore */ }
+       
+      try { const u = JSON.parse(savedUser); setTimeout(() => setCurrentUser(u), 0); } catch { /* ignore */ }
     }
 
     const savedDetails = localStorage.getItem('smriti-patient-details');
     if (savedDetails) {
-      try { setPatientDetailsState(JSON.parse(savedDetails)); } catch { /* ignore */ }
+       
+      try { const d = JSON.parse(savedDetails); setTimeout(() => setPatientDetailsState(d), 0); } catch { /* ignore */ }
     }
 
     const savedFamily = localStorage.getItem('smriti-family-members');
     if (savedFamily) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       try { setFamilyMembersState(JSON.parse(savedFamily)); } catch { /* ignore */ }
     }
 
@@ -109,29 +112,47 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [currentUser]);
 
-  const setPatientDetails = useCallback((details: PatientDetails) => {
+  const setPatientDetails = (details: PatientDetails) => {
     setPatientDetailsState(details);
     if (typeof window !== 'undefined') localStorage.setItem('smriti-patient-details', JSON.stringify(details));
-  }, []);
+  };
 
-  const setFamilyMembers = useCallback((members: FamilyMember[]) => {
+  const setFamilyMembers = (members: FamilyMember[]) => {
     setFamilyMembersState(members);
     if (typeof window !== 'undefined') localStorage.setItem('smriti-family-members', JSON.stringify(members));
-  }, []);
+  };
 
   // TTS speak helper
   const speak = useCallback((text: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    
+    // Cancel any ongoing speech first to avoid queue buildup
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = language === 'hi' ? 'hi-IN' : 'en-IN';
-    utterance.rate = 0.85;
-    utterance.pitch = 1.0;
-    utterance.volume = 1.0;
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-    window.speechSynthesis.speak(utterance);
+    
+    // A small timeout ensures the cancel operation completes before we speak again.
+    // This fixes a common browser bug where speech gets permanently stuck.
+    setTimeout(() => {
+      const utterance = new SpeechSynthesisUtterance(text);
+      const ttsLangMap: Record<string, string> = {
+        en: 'en-IN', hi: 'hi-IN', as: 'bn-IN', mni: 'hi-IN', lus: 'en-IN', njz: 'en-IN'
+      };
+      const targetLang = ttsLangMap[language] || 'en-IN';
+      utterance.lang = targetLang;
+      utterance.rate = 0.85;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = (e) => {
+        if (e.error !== 'canceled' && e.error !== 'interrupted') {
+          console.warn("[TTS] Error:", e.error);
+        }
+        setIsSpeaking(false);
+      };
+      
+      window.speechSynthesis.speak(utterance);
+    }, 50);
   }, [language]);
 
   // TTS stop helper

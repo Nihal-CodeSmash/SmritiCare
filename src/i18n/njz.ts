@@ -2,7 +2,7 @@
 // SMRITI CARE — English Translations
 // =============================================
 
-const en = {
+const njz = {
   app: {
     name: 'SMRITI CARE',
     tagline: 'Your Memory Companion',
@@ -21,9 +21,9 @@ const en = {
     goodMorning: 'Good Morning',
   },
   games: {
-    title: 'Choose a Game',
-    subtitle: 'Select a game to train your memory and attention',
-    dashboardInstruction: 'Instruction: Use this dashboard to view your progress and score in games.',
+    title: 'Game zolo',
+    subtitle: 'Na kile ncho yimtsü thong tso nyu game ka zolo',
+    dashboardInstruction: 'Nücho: Game lo na progress o score ethi ngalü dashboard ki tsülo.',
     memory: {
       name: 'Memory',
       description: 'Remember and recall objects',
@@ -127,8 +127,9 @@ const en = {
       inactivity: 'Extended Inactivity',
     },
     loginError: 'Please enter email and password',
-    backToHome: 'Back to home',
-    demo: 'Demo: Enter any email & password to continue',
+    wrongEmailOrPassword: "Email o password di thu tsü mo.",
+    backToHome: "Home nü ngale",
+    demo: "Demo",
   },
   profile: {
     title: 'Patient Profile',
@@ -200,5 +201,5 @@ const en = {
   },
 };
 
-export type TranslationKeys = typeof en;
-export default en;
+
+export default njz;

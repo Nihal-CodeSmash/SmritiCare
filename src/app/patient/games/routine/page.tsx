@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
 import { db, getDomainDifficulty } from '@/db';
 import { evaluateAttempt, finalizeSession } from '@/lib/adaptiveEngine';
+import { Calendar as CalendarIcon, Trophy, Gamepad2 } from 'lucide-react';
 import { ROUTINE_ACTIVITIES, shuffle } from '@/lib/gameContent';
 import type { DifficultyLevel } from '@/types';
 import styles from '../memory/page.module.css';
@@ -30,7 +31,7 @@ export default function RoutineGame() {
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [userOrder, setUserOrder] = useState<Activity[]>([]);
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  // Removed unused drag states
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [round, setRound] = useState(1);
   const [totalRounds] = useState(3);
@@ -117,24 +118,24 @@ export default function RoutineGame() {
     }, 2000);
   };
 
-  const getLabel = (act: Activity) => language === 'hi' ? act.label_hi : act.label_en;
+  const getLabel = (act: Activity) => String(act[`label_${language}` as keyof Activity] || act.label_en);
 
   return (
     <div className={styles.container}>
       <div className={styles.gameHeader}>
-        <div className={styles.domainBadge}>📅 {t.games.routine.name}</div>
+        <div className={styles.domainBadge}><CalendarIcon size={16} /> {t.games.routine.name}</div>
         <div className={styles.roundInfo}>
-          {language === 'hi' ? `राउंड ${round}/${totalRounds}` : `Round ${round}/${totalRounds}`}
+          {t.games.round} {round}/{totalRounds}
         </div>
         <div className={styles.levelBadge}>{t.games.difficulty} {newLevel}</div>
       </div>
 
       {phase === 'intro' && (
         <div className={`${styles.phaseBox} animate-fadeInUp`}>
-          <div className={styles.phaseEmoji}>📅</div>
+          <div className={styles.phaseEmoji}><CalendarIcon strokeWidth={1.2} /></div>
           <h2 className={styles.phaseTitle}>{t.games.routine.name}</h2>
           <p className={styles.phaseDesc}>{t.games.instruction.routine}</p>
-          <button className="btn-primary" onClick={handleStart}>🎮 {t.common.start}</button>
+          <button className="btn-primary" onClick={handleStart}><Gamepad2 size={22} /> {t.common.start}</button>
         </div>
       )}
 
@@ -169,7 +170,7 @@ export default function RoutineGame() {
 
           {phase === 'playing' && (
             <button className="btn-primary" onClick={handleSubmit} id="btn-routine-submit">
-              ✓ {language === 'hi' ? 'जमा करें' : 'Submit Order'}
+              ✓ {t.games.submitOrder}
             </button>
           )}
 
@@ -183,7 +184,7 @@ export default function RoutineGame() {
 
       {phase === 'complete' && (
         <div className={`${styles.completeBox} animate-fadeInUp`}>
-          <div className={styles.completeTrophy}>🏆</div>
+          <div className={styles.completeTrophy}><Trophy strokeWidth={1.2} /></div>
           <h2 className={styles.completeTitle}>{t.games.sessionComplete}</h2>
           <div className={styles.scoreDisplay}>
             <svg viewBox="0 0 120 120" className={styles.scoreRingSvg}>
@@ -200,7 +201,7 @@ export default function RoutineGame() {
           <div className={styles.completeActions}>
             <button className="btn-primary" onClick={() => {
               setRound(1); setPhase('intro'); sessionIdRef.current = crypto.randomUUID();
-            }}>🎮 {t.games.nextGame}</button>
+            }}><Gamepad2 size={18} /> {t.games.nextGame}</button>
             <button className="btn-secondary" onClick={() => router.push('/patient/games')}>
               {t.games.backHome}
             </button>

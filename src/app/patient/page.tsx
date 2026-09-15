@@ -29,7 +29,7 @@ export default function PatientHome() {
     const key = getGreetingKey();
     const greetingText = t.greeting[key];
     const name = currentPatient?.display_name || '';
-    setGreeting(`${greetingText}${name ? `, ${name}` : ''}!`);
+    setTimeout(() => setGreeting(`${greetingText}${name ? `, ${name}` : ''}!`), 0);
 
     const updateTime = () => {
       setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
@@ -64,7 +64,7 @@ export default function PatientHome() {
       status: 'acknowledged', sync_status: 'pending',
     });
     setIsReminderDone(true);
-    speak(language === 'hi' ? 'हो गया' : 'Reminder done');
+    speak(t.patientHome.reminderDone);
   };
 
   const currentFamilyMember = familyMembers[quizIndex];
@@ -97,12 +97,12 @@ export default function PatientHome() {
       id: 'btn-hear-instructions',
       href: '#',
       icon: <Volume2 aria-hidden="true" />,
-      label: language === 'hi' ? 'निर्देश सुनें' : 'Hear Instructions',
+      label: t.landing.hearInstructions,
       desc: '',
       color: '#90CBA8',
       gradient: 'linear-gradient(135deg, rgba(61,139,94,0.18), rgba(45,122,80,0.08))',
       borderColor: 'rgba(61,139,94,0.38)',
-      onClick: () => speak(language === 'hi' ? 'निर्देश सुनें' : 'Hear Instructions'),
+      onClick: () => speak(t.landing.hearInstructions),
     },
     {
       id: 'btn-help',
@@ -113,11 +113,7 @@ export default function PatientHome() {
       color: '#F4A07B',
       gradient: 'linear-gradient(135deg, rgba(232,113,74,0.12), rgba(196,90,53,0.06))',
       borderColor: 'rgba(232,113,74,0.28)',
-      onClick: () => speak(
-        language === 'hi'
-          ? 'खेल खेलने के लिए "आज का खेल खेलें" पर टैप करें। रिमाइंडर देखने के लिए "याददिलाने वाले" पर टैप करें।'
-          : 'Tap "Play Today\'s Game" to start a cognitive exercise. Tap "Reminders" to see your medicine and activity reminders.'
-      ),
+      onClick: () => speak(t.patientHome.voiceInstructions),
     },
   ];
 
@@ -128,7 +124,7 @@ export default function PatientHome() {
         <div className={styles.clock}>{time}</div>
         <h1 className={styles.greeting}>{greeting}</h1>
         <p className={styles.greetingSub}>
-          {language === 'hi' ? 'आज भी अच्छा करें!' : 'Ready for a great day!'}
+          {t.patientHome.readyForGreatDay}
         </p>
       </div>
 
@@ -168,36 +164,34 @@ export default function PatientHome() {
       <section className={`${styles.interactiveGrid} animate-fadeIn`}>
         <div className={styles.reminderPanel}>
           <div className={styles.panelHeading}>
-            <div><span className={styles.eyebrow}><Bell size={15} /> {language === 'hi' ? 'अगला अलार्म' : 'Next alarm'}</span><h2>{nextReminder?.title || t.reminders.noReminders}</h2></div>
+            <div><span className={styles.eyebrow}><Bell size={15} /> {t.patientHome.nextAlarm}</span><h2>{nextReminder?.title || t.reminders.noReminders}</h2></div>
             {nextReminder && <strong>{nextReminder.scheduled_time}</strong>}
           </div>
-          <p>{nextReminder?.description || (language === 'hi' ? 'आपका दिन शांत और व्यवस्थित रहे।' : 'Your day, gently organized.')}</p>
+          <p>{nextReminder?.description || t.patientHome.dayOrganized}</p>
           {nextReminder && <button className={styles.doneButton} onClick={acknowledgeReminder} disabled={isReminderDone}><Check size={20} /> {isReminderDone ? t.reminders.done : t.reminders.acknowledge}</button>}
         </div>
 
         <div className={styles.familyPanel}>
-          <div className={styles.panelHeading}><div><span className={styles.eyebrow}><HeartHandshake size={15} /> {language === 'hi' ? 'परिवार पहचानें' : 'Family memory'}</span><h2>{language === 'hi' ? 'कौन हैं ये?' : 'Who is this?'}</h2></div><ImagePlus size={24} /></div>
+          <div className={styles.panelHeading}><div><span className={styles.eyebrow}><HeartHandshake size={15} /> {t.patientHome.familyMemory}</span><h2>{t.patientHome.whoIsThis}</h2></div><ImagePlus size={24} /></div>
           {currentFamilyMember ? <>
             <div className={styles.familyPhoto}>{currentFamilyMember.image_url ? <img src={currentFamilyMember.image_url} alt="" /> : <ImagePlus size={34} />}</div>
             <div className={styles.quizChoices}>{familyMembers.map((member) => <button key={member.id} onClick={() => answerQuiz(member.name)} className={quizAnswer === 'correct' && member.id === currentFamilyMember.id ? styles.correctChoice : ''}>{member.name}</button>)}</div>
-            {quizAnswer && <p className={quizAnswer === 'correct' ? styles.correctText : styles.incorrectText}>{quizAnswer === 'correct' ? (language === 'hi' ? 'बहुत अच्छा!' : 'That is right!') : (language === 'hi' ? 'फिर से कोशिश करें' : 'Try again')}</p>}
-            <button className={styles.nextFamilyButton} onClick={() => { setQuizIndex((quizIndex + 1) % familyMembers.length); setQuizAnswer(null); }}>{language === 'hi' ? 'अगला' : 'Next family photo'}</button>
-          </> : <p className={styles.emptyFamily}><ImagePlus size={26} /> {language === 'hi' ? 'देखभालकर्ता परिवार की तस्वीरें जोड़ सकते हैं।' : 'A caregiver can add family photos for this quiz.'}</p>}
+            {quizAnswer && <p className={quizAnswer === 'correct' ? styles.correctText : styles.incorrectText}>{quizAnswer === 'correct' ? t.patientHome.thatIsRight : t.patientHome.tryAgain}</p>}
+            <button className={styles.nextFamilyButton} onClick={() => { setQuizIndex((quizIndex + 1) % familyMembers.length); setQuizAnswer(null); }}>{t.patientHome.nextFamilyPhoto}</button>
+          </> : <p className={styles.emptyFamily}><ImagePlus size={26} /> {t.patientHome.caregiverCanAdd}</p>}
         </div>
       </section>
 
       <section className={styles.contactPanel}>
-        <div><span className={styles.eyebrow}><MapPin size={15} /> {language === 'hi' ? 'सुरक्षित संपर्क' : 'Safe contacts'}</span><p>{patientDetails.address || (language === 'hi' ? 'पता अभी नहीं जोड़ा गया' : 'Address not added yet')}</p></div>
-        <a href={patientDetails.phone ? `tel:${patientDetails.phone}` : '#'}><Phone size={18} /> {patientDetails.phone || (language === 'hi' ? 'फोन जोड़ें' : 'Add phone')}</a>
+        <div><span className={styles.eyebrow}><MapPin size={15} /> {t.patientHome.safeContacts}</span><p>{patientDetails.address || t.patientHome.addressNotAdded}</p></div>
+        <a href={patientDetails.phone ? `tel:${patientDetails.phone}` : '#'}><Phone size={18} /> {patientDetails.phone || t.patientHome.addPhone}</a>
       </section>
 
       {currentPatient && (
         <div className={`${styles.tip} animate-fadeIn`} style={{ animationDelay: '0.4s' }}>
           <Lightbulb className={styles.tipIcon} aria-hidden="true" />
           <span>
-            {language === 'hi'
-              ? 'आज का सुझाव: नियमित अभ्यास से याददाश्त मजबूत होती है!'
-              : "Today's tip: Regular practice helps keep your memory sharp!"}
+            {t.patientHome.todayTip}
           </span>
         </div>
       )}

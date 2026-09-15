@@ -5,17 +5,22 @@ import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
 import type { Language } from '@/types';
 import { Brain, UserRound, Stethoscope, Volume2, VolumeX } from 'lucide-react';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 export default function HomePage() {
   const router = useRouter();
-  const { setLanguage, language, speak, stopSpeaking, isSpeaking } = useApp();
+  const { t, setLanguage, language, speak, stopSpeaking, isSpeaking } = useApp();
   const [selected, setSelected] = useState<Language>(language);
   const [animating, setAnimating] = useState(false);
 
   const languages: { code: Language; label: string; nativeLabel: string }[] = [
     { code: 'en', label: 'English', nativeLabel: 'English' },
     { code: 'hi', label: 'Hindi', nativeLabel: 'हिन्दी' },
+    { code: 'as', label: 'Assamese', nativeLabel: 'অসমীয়া' },
+    { code: 'mni', label: 'Meitei', nativeLabel: 'মৈতৈলোন্' },
+    { code: 'lus', label: 'Mizo', nativeLabel: 'Mizo ṭawng' },
+    { code: 'njz', label: 'Naga', nativeLabel: 'Nagamese' },
   ];
 
   const handleLanguageSelect = (lang: Language) => {
@@ -31,18 +36,13 @@ export default function HomePage() {
     }, 400);
   };
 
-  const greetingText = selected === 'hi'
-    ? 'स्वागत है! अपनी भाषा चुनें'
-    : 'Welcome! Please select your language';
+  const greetingText = t.landing.greetingText;
 
   const handleVoice = () => {
     if (isSpeaking) {
       stopSpeaking();
     } else {
-      speak(selected === 'hi'
-        ? 'स्वागत है स्मृति केयर में। रोगी मोड या देखभालकर्ता मोड चुनें।'
-        : 'Welcome to Smriti Care. Please choose Patient Mode or Caregiver Mode to continue.'
-      );
+      speak(t.landing.voiceIntro);
     }
   };
 
@@ -59,11 +59,11 @@ export default function HomePage() {
         {/* Logo / App Name */}
         <div className={`${styles.header} animate-fadeInUp`}>
           <div className={styles.logoWrap}>
-            <Brain className={styles.logoIcon} strokeWidth={1.5} />
+            <Image src="/images/smriticare-logo.png" alt="SmritiCare Logo" width={80} height={80} className={styles.logoImage} priority />
           </div>
           <h1 className={styles.appName}>SMRITI CARE</h1>
           <p className={styles.tagline}>
-            {selected === 'hi' ? 'आपका स्मृति साथी' : 'Your Memory Companion'}
+            {t.app.tagline}
           </p>
           <p className={styles.ministry}>
             Ministry of Development of North Eastern Region
@@ -93,7 +93,7 @@ export default function HomePage() {
         {/* Mode Selection */}
         <div className={`${styles.section} stagger`} style={{ animationDelay: '0.2s' }}>
           <p className={styles.sectionLabel}>
-            {selected === 'hi' ? 'मोड चुनें' : 'Choose your mode'}
+            {t.landing.chooseMode}
           </p>
 
           {/* Patient Mode */}
@@ -107,12 +107,10 @@ export default function HomePage() {
             </div>
             <div className={styles.modeBtnContent}>
               <span className={styles.modeBtnTitle}>
-                {selected === 'hi' ? 'रोगी मोड' : 'Patient Mode'}
+                {t.landing.patientMode}
               </span>
               <span className={styles.modeBtnDesc}>
-                {selected === 'hi'
-                  ? 'खेलें, याद करें, रिमाइंडर देखें'
-                  : 'Play games, practice memory, view reminders'}
+                {t.landing.patientDesc}
               </span>
             </div>
             <span className={styles.modeBtnArrow} aria-hidden="true">→</span>
@@ -129,12 +127,10 @@ export default function HomePage() {
             </div>
             <div className={styles.modeBtnContent}>
               <span className={styles.modeBtnTitle}>
-                {selected === 'hi' ? 'देखभालकर्ता मोड' : 'Caregiver Mode'}
+                {t.landing.caregiverMode}
               </span>
               <span className={styles.modeBtnDesc}>
-                {selected === 'hi'
-                  ? 'डैशबोर्ड, प्रगति, रिमाइंडर प्रबंधित करें'
-                  : 'Dashboard, progress, manage reminders'}
+                {t.landing.caregiverDesc}
               </span>
             </div>
             <span className={styles.modeBtnArrow} aria-hidden="true">→</span>
@@ -149,8 +145,8 @@ export default function HomePage() {
           aria-label={isSpeaking ? 'Stop speaking' : 'Hear instructions'}
         >
           {isSpeaking
-            ? <><VolumeX size={18} /> {selected === 'hi' ? 'रोकें' : 'Stop'}</>
-            : <><Volume2 size={18} /> {selected === 'hi' ? 'निर्देश सुनें' : 'Hear Instructions'}</>
+            ? <><VolumeX size={18} /> {t.landing.stop}</>
+            : <><Volume2 size={18} /> {t.landing.hearInstructions}</>
           }
         </button>
 

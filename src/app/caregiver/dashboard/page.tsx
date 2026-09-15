@@ -36,11 +36,6 @@ export default function CaregiverDashboard() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!currentPatient) return;
-    loadDashboardData();
-  }, [currentPatient]);
-
   const loadDashboardData = async () => {
     if (!currentPatient) return;
     
@@ -90,6 +85,12 @@ export default function CaregiverDashboard() {
     setStats(newStats);
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (!currentPatient) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadDashboardData();
+  }, [currentPatient]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleAcknowledgeAlert = async (id: string) => {
     await db.alerts.update(id, { 

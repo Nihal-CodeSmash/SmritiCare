@@ -22,17 +22,17 @@ const REMINDER_ICONS: Record<string, React.ComponentType<{ size?: number; 'aria-
 };
 
 const REMINDER_COLORS: Record<string, string> = {
-  medicine: 'rgba(156,39,176,0.2)',
-  hydration: 'rgba(2,136,209,0.2)',
-  daily_activity: 'rgba(56,142,60,0.2)',
-  appointment: 'rgba(198,40,40,0.2)',
+  medicine: 'rgba(94,170,168,0.2)', // Teal
+  hydration: 'rgba(142,197,195,0.2)', // Light teal
+  daily_activity: 'rgba(232,113,74,0.2)', // Terracotta
+  appointment: 'rgba(244,160,123,0.2)', // Light terracotta
 };
 
 const REMINDER_BORDER: Record<string, string> = {
-  medicine: 'rgba(156,39,176,0.45)',
-  hydration: 'rgba(2,136,209,0.45)',
-  daily_activity: 'rgba(56,142,60,0.45)',
-  appointment: 'rgba(198,40,40,0.45)',
+  medicine: 'rgba(94,170,168,0.45)',
+  hydration: 'rgba(142,197,195,0.45)',
+  daily_activity: 'rgba(232,113,74,0.45)',
+  appointment: 'rgba(244,160,123,0.45)',
 };
 
 export default function RemindersPage() {
@@ -40,11 +40,6 @@ export default function RemindersPage() {
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [acknowledged, setAcknowledged] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    speak(t.reminders.title);
-    loadReminders();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const loadReminders = async () => {
     const patientId = currentPatient?.id ?? 'demo-patient';
@@ -100,6 +95,13 @@ export default function RemindersPage() {
     setLoading(false);
   };
 
+  useEffect(() => {
+    speak(t.reminders.title);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadReminders();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+
   const handleAcknowledge = async (reminder: Reminder) => {
     setAcknowledged((prev) => new Set([...prev, reminder.id]));
 
@@ -113,7 +115,7 @@ export default function RemindersPage() {
       sync_status: 'pending',
     });
 
-    const label = language === 'hi' ? 'हो गया' : 'Done';
+    const label = t.reminders.done;
     speak(label);
   };
 
@@ -140,9 +142,7 @@ export default function RemindersPage() {
       <div className={`${styles.header} animate-fadeInUp`}>
         <h2 className={styles.title}><Bell size={32} /> {t.reminders.title}</h2>
         <p className={styles.subtitle}>
-          {language === 'hi'
-            ? 'आज के आपके रिमाइंडर'
-            : "Today's reminders for you"}
+          {t.reminders.title}
         </p>
       </div>
 

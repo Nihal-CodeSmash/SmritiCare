@@ -2,7 +2,7 @@
 // SMRITI CARE — Core Types
 // =============================================
 
-export type Language = 'en' | 'hi';
+export type Language = 'en' | 'hi' | 'as' | 'mni' | 'lus' | 'njz';
 export type Region = 'assam' | 'manipur' | 'meghalaya' | 'mizoram' | 'general';
 export type UserRole = 'caregiver' | 'patient';
 export type SyncStatus = 'synced' | 'pending' | 'conflict';
@@ -168,6 +168,7 @@ export interface GameContent {
   emoji?: string; // fallback when no image
   image_path?: string;
   active: boolean;
+  [key: string]: string | number | boolean | undefined; // Allow dynamic language keys
 }
 
 // ---- App State ----

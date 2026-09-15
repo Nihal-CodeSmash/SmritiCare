@@ -3,7 +3,7 @@
 // =============================================
 
 import { db, getDomainDifficulty, updateDomainDifficulty, getRecentAttempts, addToSyncQueue } from '@/db';
-import type { Domain, DifficultyLevel, GameAttempt } from '@/types';
+import type { Domain, DifficultyLevel, GameAttempt, Language } from '@/types';
 
 const MIN_LEVEL = 1;
 const MAX_LEVEL = 5;
@@ -16,24 +16,24 @@ const DECLINE_SESSION_COUNT = 3; // Must persist for 3+ sessions
 
 // ---- Encouraging messages ----
 const ENCOURAGEMENT_EN = [
-  'Great job! 🎉',
-  'Well done! ⭐',
-  'Keep it up! 💪',
-  'Excellent! 🌟',
-  'You\'re doing wonderfully! 🎊',
+  'Great job!',
+  'Well done!',
+  'Keep it up!',
+  'Excellent!',
+  'You\'re doing wonderfully!',
 ];
 
 const ENCOURAGEMENT_HI = [
-  'बहुत अच्छे! 🎉',
-  'शाबाश! ⭐',
-  'जारी रखें! 💪',
-  'उत्कृष्ट! 🌟',
-  'आप बहुत अच्छा कर रहे हैं! 🎊',
+  'बहुत बढ़िया!',
+  'शाबाश!',
+  'लगे रहो!',
+  'उत्कृष्ट!',
+  'आप बहुत अच्छा कर रहे हैं!',
 ];
 
-export function getEncouragement(lang: 'en' | 'hi' = 'en'): string {
-  const arr = lang === 'hi' ? ENCOURAGEMENT_HI : ENCOURAGEMENT_EN;
-  return arr[Math.floor(Math.random() * arr.length)];
+export function getEncouragement(lang: Language = 'en'): string {
+  const messages = lang === 'hi' ? ENCOURAGEMENT_HI : ENCOURAGEMENT_EN;
+  return messages[Math.floor(Math.random() * messages.length)];
 }
 
 // ---- Evaluate an attempt and update difficulty ----

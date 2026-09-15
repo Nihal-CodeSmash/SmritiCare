@@ -157,8 +157,7 @@ export default function MemoryGame() {
     }
   };
 
-  const getLabel = (obj: GameContent) =>
-    language === 'hi' ? obj.label_hi : obj.label_en;
+  const getLabel = (obj: GameContent) => String(obj[`label_${language}` as keyof GameContent] || obj.label_en);
 
   return (
     <div className={styles.container}>
@@ -166,7 +165,7 @@ export default function MemoryGame() {
       <div className={styles.gameHeader}>
         <div className={styles.domainBadge}><Brain size={16} /> {t.games.memory.name}</div>
         <div className={styles.roundInfo}>
-          {language === 'hi' ? `राउंड ${round}/${totalRounds}` : `Round ${round}/${totalRounds}`}
+          {t.games.round} {round}/{totalRounds}
         </div>
         <div className={styles.levelBadge}>
           {t.games.difficulty} {newLevel}
@@ -183,7 +182,7 @@ export default function MemoryGame() {
           <p className={styles.phaseDesc}>{t.games.instruction.memory}</p>
           <div className={styles.difficultyInfo}>
             <span>
-              {language === 'hi' ? `आज का स्तर: ${difficulty}` : `Today's level: ${difficulty}`}
+              {t.games.todayLevel} {difficulty}
             </span>
             <span>
               {language === 'hi'
@@ -203,7 +202,7 @@ export default function MemoryGame() {
           <p className={styles.instruction}>{t.games.instruction.memory}</p>
           <div className={styles.timerWrap}>
             <div className={styles.timerLabel}>
-              {language === 'hi' ? `${countdown} सेकेंड` : `${countdown} seconds`}
+              {countdown} {t.games.seconds}
             </div>
             <div className="timer-bar" style={{ width: '100%' }}>
               <div
@@ -253,7 +252,7 @@ export default function MemoryGame() {
                   className={cardClass}
                   onClick={() => !isSelected && handleSelect(obj)}
                   disabled={isSelected}
-                  aria-label={getLabel(obj)}
+                  aria-label={getLabel(obj) || 'Memory Item'}
                 >
                   <span className={styles.objectEmoji}>{obj.emoji}</span>
                   <span className={styles.objectLabel}>{getLabel(obj)}</span>
@@ -303,8 +302,8 @@ export default function MemoryGame() {
           {newLevel !== difficulty && (
             <div className={styles.levelChange}>
               {newLevel > difficulty
-                ? (language === 'hi' ? `🎉 स्तर बढ़ा: ${newLevel}` : `🎉 Level up! Now Level ${newLevel}`)
-                : (language === 'hi' ? `💪 स्तर: ${newLevel}` : `💪 Level adjusted to ${newLevel}`)}
+                ? `🎉 ${t.games.levelUp} ${newLevel}`
+                : `💪 ${t.games.levelAdjusted} ${newLevel}`}
             </div>
           )}
 
